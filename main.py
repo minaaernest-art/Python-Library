@@ -9,8 +9,8 @@ book = Book(1, "Clean Code", "Robert C. Martin", 1, 3)
 library.add_user(user)
 library.add_book(book)
 
-print("Users:")
-library.display_users()
+results = library.search_books("title", "clean")
 
-print("\nBooks:")
-library.display_books()
+print("Search results:")
+for book in results:
+    print(f"{book.title} by {book.author}")
