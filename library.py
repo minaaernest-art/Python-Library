@@ -1,8 +1,10 @@
+from models import Rating
 class Library:
     def __init__(self):
         self.users = []
         self.books = []
         self.categories = []
+        self.ratings = []
 
     def add_user(self, user):
         self.users.append(user)
@@ -36,3 +38,29 @@ class Library:
                     results.append(book)
 
         return results
+    
+    def add_rating(self, rating):
+       user_exists = any(user.user_id == rating.user_id for user in self.users)
+       book_exists = any(book.book_id == rating.book_id for book in self.books)
+
+       if not user_exists:
+          raise ValueError("User does not exist.")
+
+       if not book_exists:
+          raise ValueError("Book does not exist.")
+
+       for existing_rating in self.ratings:
+           if (
+              existing_rating.user_id == rating.user_id
+              and existing_rating.book_id == rating.book_id
+         ):
+              raise ValueError("This user has already rated this book.")
+
+       self.ratings.append(rating)
+
+    def display_ratings(self):
+       for rating in self.ratings:
+          print(
+            f"User {rating.user_id} rated book {rating.book_id}: "
+            f"{rating.score}/10 - {rating.review}"
+            )   

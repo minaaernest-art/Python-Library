@@ -55,3 +55,20 @@ class Book:
         if not isinstance(value, int) or not 1 <= value <= 10:
             raise ValueError("Rating score must be an integer from 1 to 10.")
         self._score = value
+
+class Rating:
+    def __init__(self, user_id, book_id, score, review):
+        self.user_id = user_id
+        self.book_id = book_id
+        self.score = score
+        self.review = review
+
+    @property
+    def score(self):
+        return self._score
+
+    @score.setter
+    def score(self, value):
+        if not isinstance(value, int) or not 1 <= value <= 10:
+            raise ValueError("Rating score must be an integer from 1 to 10.")
+        self._score = value      
