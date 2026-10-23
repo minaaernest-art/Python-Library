@@ -13,4 +13,8 @@ library.borrow_book(user.user_id, book.book_id)
 library.complete_book(user.user_id, book.book_id)
 
 print("Reading history:")
-library.display_reading_history(user.user_id)
+library.display_reading_history(user.user_id) 
+
+print("\nBooks already read:")
+for book in library.get_completed_books(user.user_id):
+    print(book.title)

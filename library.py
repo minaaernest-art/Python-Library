@@ -103,3 +103,16 @@ class Library:
                 f"Date: {record.date.strftime('%Y-%m-%d %H:%M')}, "
                 f"Status: {record.status.value}"
             )
+
+    def get_completed_books(self, user_id):
+      completed_book_ids = {
+        record.book_id
+        for record in self.reading_history
+        if record.user_id == user_id
+        and record.status == ReadingStatus.COMPLETED
+    }
+
+      return [
+        book for book in self.books
+        if book.book_id in completed_book_ids
+    ]        
