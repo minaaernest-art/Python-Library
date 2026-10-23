@@ -1,5 +1,7 @@
 from models import Rating
 from models import ReadingRecord, ReadingStatus
+from collections import Counter
+
 class Library:
     def __init__(self):
         self.users = []
@@ -128,3 +130,19 @@ class Library:
          return 0
 
        return sum(book_ratings) / len(book_ratings) 
+
+    def most_popular_authors(self, limit=3):
+      authors = Counter(book.author for book in self.books)
+      return authors.most_common(limit)
+
+
+    def most_popular_categories(self, limit=3):
+        category_names = []
+
+        for book in self.books:
+         name = self.get_category_name(book.category_id)
+         if name:
+            category_names.append(name)
+
+         categories = Counter(category_names)
+        return categories.most_common(limit)

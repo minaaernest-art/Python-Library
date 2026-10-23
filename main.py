@@ -25,3 +25,5 @@ library.add_rating(rating)
 
 average = library.calculate_average_rating(book.book_id)
 print("Average rating:", average)   
+print("Popular authors:", library.most_popular_authors())
+print("Popular categories:", library.most_popular_categories())
