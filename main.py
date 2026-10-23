@@ -2,6 +2,9 @@ from models import User, Book
 from library import Library
 from models import User, Book, Rating
 from storage import save_library, load_library
+from models import User, Book, Rating, Category
+
+from sqlite_storage import save_library_to_sqlite
 
 library = Library()
 
@@ -45,3 +48,10 @@ print("Loaded books:")
 for book in new_library.books:
     print(f"{book.title} by {book.author} (copies: {book.available_copies})")
     print("\nRecommended books:")
+
+category = Category(1, "Programming")
+library.add_category(category)
+
+save_library_to_sqlite(library)
+print("Library data saved to SQLite.")    
+
