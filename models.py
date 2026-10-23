@@ -40,11 +40,11 @@ class Book:
         self._available_copies = value
 
         class Rating:
-    def __init__(self, user_id, book_id, score, review):
-        self.user_id = user_id
-        self.book_id = book_id
-        self.score = score
-        self.review = review
+             def __init__(self, user_id, book_id,score, review):
+              self.user_id = user_id
+              self.book_id = book_id
+              self.score = score
+              self.review = review
 
     @property
     def score(self):
