@@ -72,3 +72,19 @@ class Rating:
         if not isinstance(value, int) or not 1 <= value <= 10:
             raise ValueError("Rating score must be an integer from 1 to 10.")
         self._score = value      
+
+from enum import Enum
+from datetime import datetime
+
+
+class ReadingStatus(Enum):
+    BORROWED = "borrowed"
+    COMPLETED = "completed"
+
+
+class ReadingRecord:
+    def __init__(self, user_id, book_id, status):
+        self.user_id = user_id
+        self.book_id = book_id
+        self.date = datetime.now()
+        self.status = status     

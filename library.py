@@ -1,10 +1,12 @@
 from models import Rating
+from models import ReadingRecord, ReadingStatus
 class Library:
     def __init__(self):
         self.users = []
         self.books = []
         self.categories = []
         self.ratings = []
+        self.reading_history = []
 
     def add_user(self, user):
         self.users.append(user)
@@ -64,3 +66,40 @@ class Library:
             f"User {rating.user_id} rated book {rating.book_id}: "
             f"{rating.score}/10 - {rating.review}"
             )   
+    
+    def borrow_book(self, user_id, book_id):
+      user_exists = any(user.user_id == user_id for user in self.users)
+      book = next((book for book in self.books if book.book_id == book_id), None)
+
+      if not user_exists:
+          raise ValueError("User does not exist.")
+      if book is None:
+        raise ValueError("Book does not exist.")
+      if book.available_copies <= 0:
+        raise ValueError("No copies are available.")
+
+      book.available_copies -= 1
+      record = ReadingRecord(user_id, book_id, ReadingStatus.BORROWED)
+      self.reading_history.append(record)
+
+
+    def complete_book(self, user_id, book_id):
+      for record in self.reading_history:
+        if (
+            record.user_id == user_id
+            and record.book_id == book_id
+            and record.status == ReadingStatus.BORROWED
+        ):
+            record.status = ReadingStatus.COMPLETED
+            return
+
+      raise ValueError("No borrowed record found for this user and book.")      
+    
+    def display_reading_history(self, user_id):
+      for record in self.reading_history:
+        if record.user_id == user_id:
+            print(
+                f"Book ID: {record.book_id}, "
+                f"Date: {record.date.strftime('%Y-%m-%d %H:%M')}, "
+                f"Status: {record.status.value}"
+            )
