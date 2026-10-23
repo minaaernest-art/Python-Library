@@ -1,4 +1,6 @@
 import sqlite3
+from datetime import datetime
+from models import User, Category, Book, Rating, ReadingRecord, ReadingStatus
 
 
 def save_library_to_sqlite(library, database_name="library.db"):
@@ -101,3 +103,54 @@ def save_library_to_sqlite(library, database_name="library.db"):
 
     finally:
         connection.close()
+
+from models import User, Category, Book, Rating, ReadingRecord, ReadingStatus
+
+
+def load_library_from_sqlite(library, database_name="library.db"):
+    connection = sqlite3.connect(database_name)
+    connection.row_factory = sqlite3.Row
+    connection.execute("PRAGMA foreign_keys = ON")
+
+    try:
+        library.users = [
+            User(row["user_id"], row["name"], row["email"])
+            for row in connection.execute("SELECT * FROM users")
+        ]
+
+        library.categories = [
+            Category(row["category_id"], row["name"])
+            for row in connection.execute("SELECT * FROM categories")
+        ]
+
+        library.books = [
+            Book(
+                row["book_id"],
+                row["title"],
+                row["author"],
+                row["category_id"],
+                row["available_copies"],
+            )
+            for row in connection.execute("SELECT * FROM books")
+        ]
+
+        library.ratings = [
+            Rating(row["user_id"], row["book_id"], row["score"], row["review"])
+            for row in connection.execute("SELECT * FROM ratings")
+        ]
+
+        library.reading_history = []
+
+        for row in connection.execute("SELECT * FROM reading_history"):
+            record = ReadingRecord(
+                row["user_id"],
+                row["book_id"],
+                ReadingStatus(row["status"]),
+            )
+            record.date = datetime.fromisoformat(row["date"])
+            library.reading_history.append(record)
+
+        return library
+
+    finally:
+        connection.close()    
