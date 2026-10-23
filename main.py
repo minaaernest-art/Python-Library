@@ -1,6 +1,7 @@
 from models import User, Book
 from library import Library
 from models import User, Book, Rating
+from storage import save_library, load_library
 
 library = Library()
 
@@ -34,3 +35,13 @@ for book in library.recommend_books(user.user_id):
 
     book2 = Book(2, "The Pragmatic Programmer", "Andrew Hunt", 1, 2)
     library.add_book(book2)
+
+save_library(library)
+
+new_library = Library()
+load_library(new_library)
+
+print("Loaded books:")
+for book in new_library.books:
+    print(f"{book.title} by {book.author} (copies: {book.available_copies})")
+    print("\nRecommended books:")

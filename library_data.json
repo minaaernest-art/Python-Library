@@ -1,0 +1,35 @@
+{
+    "users": [
+        {
+            "user_id": 1,
+            "name": "Ahmed",
+            "email": "ahmed@example.com"
+        }
+    ],
+    "categories": [],
+    "books": [
+        {
+            "book_id": 1,
+            "title": "Clean Code",
+            "author": "Robert C. Martin",
+            "category_id": 1,
+            "available_copies": 2
+        }
+    ],
+    "ratings": [
+        {
+            "user_id": 1,
+            "book_id": 1,
+            "score": 9,
+            "review": "A very useful book"
+        }
+    ],
+    "reading_history": [
+        {
+            "user_id": 1,
+            "book_id": 1,
+            "date": "2026-10-23T18:13:58.950346",
+            "status": "completed"
+        }
+    ]
+}
