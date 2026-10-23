@@ -1,5 +1,6 @@
 from models import User, Book
 from library import Library
+from models import User, Book, Rating
 
 library = Library()
 
@@ -18,3 +19,9 @@ library.display_reading_history(user.user_id)
 print("\nBooks already read:")
 for book in library.get_completed_books(user.user_id):
     print(book.title)
+
+rating = Rating(user.user_id, book.book_id, 9, "A very useful book")
+library.add_rating(rating)
+
+average = library.calculate_average_rating(book.book_id)
+print("Average rating:", average)   

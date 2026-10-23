@@ -110,9 +110,21 @@ class Library:
         for record in self.reading_history
         if record.user_id == user_id
         and record.status == ReadingStatus.COMPLETED
-    }
+      }
 
       return [
         book for book in self.books
         if book.book_id in completed_book_ids
-    ]        
+      ]        
+
+    def calculate_average_rating(self, book_id):
+       book_ratings = [
+        rating.score
+        for rating in self.ratings
+        if rating.book_id == book_id
+       ]
+
+       if not book_ratings:
+         return 0
+
+       return sum(book_ratings) / len(book_ratings) 
