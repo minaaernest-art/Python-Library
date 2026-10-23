@@ -1,6 +1,7 @@
 from models import Rating
 from models import ReadingRecord, ReadingStatus
 from collections import Counter
+from models import Rating, ReadingRecord, ReadingStatus
 
 class Library:
     def __init__(self):
@@ -146,3 +147,35 @@ class Library:
 
          categories = Counter(category_names)
         return categories.most_common(limit)
+
+    def recommend_books(self, user_id):
+        # اجمع تصنيفات الكتب التي قيّمها المستخدم بدرجة 8 أو أكثر
+      favorite_category_ids = set()
+
+      for rating in self.ratings:
+           if rating.user_id == user_id and rating.score >= 8:
+            book = next(
+                (book for book in self.books if book.book_id == rating.book_id),
+                None
+            )
+            if book:
+                favorite_category_ids.add(book.category_id)
+
+        # استبعد الكتب التي أكمل المستخدم قراءتها
+           completed_book_ids = {
+             record.book_id
+            for record in self.reading_history
+            if record.user_id == user_id
+            and record.status == ReadingStatus.COMPLETED
+            }
+ 
+           recommendations = []
+
+           for book in self.books:
+             if (
+               book.category_id in favorite_category_ids
+               and book.book_id not in completed_book_ids
+            ):
+              recommendations.append(book)
+
+      return recommendations

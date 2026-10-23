@@ -27,3 +27,10 @@ average = library.calculate_average_rating(book.book_id)
 print("Average rating:", average)   
 print("Popular authors:", library.most_popular_authors())
 print("Popular categories:", library.most_popular_categories())
+
+print("\nRecommended books:")
+for book in library.recommend_books(user.user_id):
+    print(book.title) 
+
+    book2 = Book(2, "The Pragmatic Programmer", "Andrew Hunt", 1, 2)
+    library.add_book(book2)
